@@ -4,10 +4,6 @@ const handleError = (err, req, res, next) => {
   const code = err.statusCode || 500;
   const message = err.message;
   const data = err.data || "";
-  console.log({
-    message: message,
-    data: data,
-  });
   res.status(code).json({
     message: message,
     data: data,
