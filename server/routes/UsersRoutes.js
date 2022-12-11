@@ -4,12 +4,15 @@ import bcrypt from "bcryptjs";
 
 import IndexControllers from "../controllers/IndexControllers";
 import validation from "../helper/validation";
+import auth from "../helper/auth";
 import Users from "../models/users";
 
 const router = Router();
 
 router.post(
   "/create",
+  auth.isAuth,
+  auth.isAdmin,
   [
     body("email")
       .isEmail()
@@ -46,10 +49,11 @@ router.post(
   IndexControllers.UsersController.createUser
 );
 
-router.get("/all", IndexControllers.UsersController.getAllUsers);
+router.get("/all", auth.isAuth, IndexControllers.UsersController.getAllUsers);
 
 router.get(
   "/one/:userId",
+  auth.isAuth,
   [param("userId").isMongoId().withMessage("Invalid ID")],
   validation.result,
   IndexControllers.UsersController.getOneUser
@@ -57,6 +61,8 @@ router.get(
 
 router.put(
   "/profile/:userId",
+  auth.isAuth,
+  auth.isAdmin,
   [
     param("userId").isMongoId().withMessage("Invalid user ID"),
     body("email")
@@ -81,6 +87,8 @@ router.put(
 
 router.put(
   "/password/:userId",
+  auth.isAuth,
+  auth.isAdmin,
   [
     param("userId").isMongoId().withMessage("Invalid user ID"),
     body("newPassword")
@@ -105,6 +113,8 @@ router.put(
 
 router.put(
   "/type/:userId",
+  auth.isAuth,
+  auth.isAdmin,
   [
     param("userId").isMongoId().withMessage("Invalid user ID"),
     body("type")
@@ -118,6 +128,8 @@ router.put(
 
 router.delete(
   "/delete/:userId",
+  auth.isAuth,
+  auth.isAdmin,
   [param("userId").isMongoId().withMessage("Invalid user ID")],
   validation.result,
   IndexControllers.UsersController.deleteUser
