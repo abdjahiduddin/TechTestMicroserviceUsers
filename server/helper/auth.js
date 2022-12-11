@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../config/config";
-import Users from "../models/users"
+import Users from "../models/users";
 
 const isAuth = (req, res, next) => {
   const authHeader = req.get("Authorization");
@@ -30,18 +30,44 @@ const isAuth = (req, res, next) => {
 
 const isAdmin = async (req, res, next) => {
   try {
-    const userId = req.userData.userId
+    const userId = req.userData.userId;
     const user = await Users.findById(userId, { password: 0 });
 
     if (!user) {
-      errorHandling("Authentication failed, Could not find user", 401)
+      errorHandling("Authentication failed, Could not find user", 401);
     }
 
     if (!(user.type === "admin")) {
-      errorHandling("Authorization failed, Not admin", 401)
+      errorHandling("Authorization failed, Not admin", 401);
     }
 
-    next()
+    next();
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+const isUser = async (req, res, next) => {
+  try {
+    const userId = req.userData.userId;
+    const paramUserId = req.params.userId;
+
+    const user = await Users.findById(userId, { password: 0 });
+
+    if (!user) {
+      errorHandling("Authentication failed, Could not find user", 401);
+    }
+
+    if (userId !== paramUserId && user.type !== "admin") {
+      errorHandling(
+        `Authorization failed, Cannot access another user's data`,
+        401
+      );
+    }
+    next();
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
@@ -59,4 +85,5 @@ const errorHandling = (message, code) => {
 export default {
   isAuth,
   isAdmin,
+  isUser,
 };

@@ -49,13 +49,19 @@ router.post(
   IndexControllers.UsersController.createUser
 );
 
-router.get("/all", auth.isAuth, IndexControllers.UsersController.getAllUsers);
+router.get(
+  "/all",
+  auth.isAuth,
+  auth.isAdmin,
+  IndexControllers.UsersController.getAllUsers
+);
 
 router.get(
   "/one/:userId",
   auth.isAuth,
   [param("userId").isMongoId().withMessage("Invalid ID")],
   validation.result,
+  auth.isUser,
   IndexControllers.UsersController.getOneUser
 );
 

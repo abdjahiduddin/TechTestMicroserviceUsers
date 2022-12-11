@@ -2,12 +2,11 @@
 const handleError = (err, req, res, next) => {
   console.log("Custom Error Handler");
   const code = err.statusCode || 500;
-  const message = err.message;
-  const data = err.data || "";
-  res.status(code).json({
-    message: message,
-    data: data,
-  });
+  const response = {
+    message: err.message,
+  };
+  if (err.data !== undefined) response.data = err.data;
+  res.status(code).json(response);
 };
 
 const cors = (req, res, next) => {
