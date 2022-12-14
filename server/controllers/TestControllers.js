@@ -1,6 +1,8 @@
+import config from "../config/config";
+
 const testApi = (req, res) => {
   res.status(200).json({
-    status: "success",
+    status: config.env,
   });
 };
 
