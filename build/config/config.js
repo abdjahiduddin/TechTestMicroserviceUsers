@@ -8,7 +8,7 @@ exports["default"] = void 0;
 var _dotenv = _interopRequireDefault(require("dotenv"));
 _dotenv["default"].config();
 var host = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
-var port = process.env.NODE_ENV === "production" ? 8080 : 8081;
+var port = process.env.NODE_ENV === "production" ? 80 : 8081;
 var config = {
   env: process.env.NODE_ENV || "development",
   host: host,
