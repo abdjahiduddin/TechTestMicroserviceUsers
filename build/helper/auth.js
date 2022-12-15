@@ -28,7 +28,7 @@ var isAuth = function isAuth(req, res, next) {
     next();
   } catch (error) {
     if (!error.statusCode) {
-      error.statusCode = 500;
+      error.statusCode = 401;
     }
     next(error);
   }
@@ -61,7 +61,7 @@ var isAdmin = /*#__PURE__*/function () {
             _context.prev = 10;
             _context.t0 = _context["catch"](0);
             if (!_context.t0.statusCode) {
-              _context.t0.statusCode = 500;
+              _context.t0.statusCode = 401;
             }
             next(_context.t0);
           case 14:
@@ -104,7 +104,7 @@ var isUser = /*#__PURE__*/function () {
             _context2.prev = 11;
             _context2.t0 = _context2["catch"](0);
             if (!_context2.t0.statusCode) {
-              _context2.t0.statusCode = 500;
+              _context2.t0.statusCode = 401;
             }
             next(_context2.t0);
           case 15:

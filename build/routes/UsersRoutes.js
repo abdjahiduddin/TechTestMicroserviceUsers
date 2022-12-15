@@ -34,6 +34,7 @@ router.put("/password/:userId", _auth["default"].isAuth, _auth["default"].isAdmi
   return _users["default"].findById(req.params.userId, {
     password: 1
   }).then(function (result) {
+    if (!result) return Promise.reject("Could not find user");
     return _bcryptjs["default"].compare(value, result.password);
   }).then(function (isEqual) {
     if (!isEqual) return Promise.reject("Old password wrong");

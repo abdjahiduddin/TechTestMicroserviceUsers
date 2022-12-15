@@ -106,6 +106,7 @@ router.put(
       .custom((value, { req }) => {
         return Users.findById(req.params.userId, { password: 1 })
           .then((result) => {
+            if (!result) return Promise.reject("Could not find user");
             return bcrypt.compare(value, result.password);
           })
           .then((isEqual) => {

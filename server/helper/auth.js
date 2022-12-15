@@ -22,7 +22,7 @@ const isAuth = (req, res, next) => {
     next();
   } catch (error) {
     if (!error.statusCode) {
-      error.statusCode = 500;
+      error.statusCode = 401;
     }
     next(error);
   }
@@ -44,7 +44,7 @@ const isAdmin = async (req, res, next) => {
     next();
   } catch (error) {
     if (!error.statusCode) {
-      error.statusCode = 500;
+      error.statusCode = 401;
     }
     next(error);
   }
@@ -70,7 +70,7 @@ const isUser = async (req, res, next) => {
     next();
   } catch (error) {
     if (!error.statusCode) {
-      error.statusCode = 500;
+      error.statusCode = 401;
     }
     next(error);
   }
